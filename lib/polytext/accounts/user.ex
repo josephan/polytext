@@ -1,8 +1,8 @@
 defmodule Polytext.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
-
   alias Polytext.Accounts.User
+  alias Polytext.Reads.Document
 
   schema "users" do
     field :email, :string, null: false
@@ -12,6 +12,8 @@ defmodule Polytext.Accounts.User do
     field :password_hash, :string
     field :admin, :boolean
     field :email_verified, :boolean
+
+    has_many :document, Document
 
     timestamps()
   end
