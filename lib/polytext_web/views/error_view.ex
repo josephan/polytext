@@ -9,12 +9,6 @@ defmodule PolytextWeb.ErrorView do
     "Internal server error"
   end
 
-  # In case no render clause matches or no
-  # template is found, let's render it as 500
-  def template_not_found(_template, assigns) do
-    render "500.html", assigns
-  end
-
   def render("400.json", _assigns) do
     %{errors: %{detail: "Bad request"}}
   end
@@ -34,6 +28,6 @@ defmodule PolytextWeb.ErrorView do
   # In case no render clause matches or no
   # template is found, let's render it as 500
   def template_not_found(_template, assigns) do
-    render "500.json", assigns
+    render "500.html", assigns
   end
 end

@@ -1,6 +1,7 @@
-defmodule Polytext.Auth do
+defmodule Polytext.BrowserAuth do
   import Plug.Conn
 
+  alias Polytext.Repo
   alias Polytext.Accounts.User
 
   def init(_opts) do
@@ -8,7 +9,7 @@ defmodule Polytext.Auth do
 
   def call(conn, _opts) do
     user_id = get_session(conn, :user_id)
-    user = user_id && repo.get(User, user_id)
+    user = user_id && Repo.get(User, user_id)
     assign(conn, :current_user, user)
   end
 
@@ -20,7 +21,7 @@ defmodule Polytext.Auth do
   end
 
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
-  def login(conn, email, given_pass) do
+  def login_by_email_and_pass(conn, email, given_pass) do
     user = Polytext.Repo.get_by(User, email: email)
 
     cond do

@@ -2,7 +2,7 @@ defmodule Polytext.Plugs.EnsureAdmin do
   import Plug.Conn
   import Phoenix.Controller, only: [put_flash: 3, redirect: 2]
 
-  alias Polytext.Router.Helpers
+  alias PolytextWeb.Router.Helpers
 
   def init(_params) do
   end
@@ -13,7 +13,7 @@ defmodule Polytext.Plugs.EnsureAdmin do
     else
       conn
       |> put_flash(:error, "Sorry you have be an admin to login to that page.")
-      |> redirect(to: Helpers.page_path(conn, :home))
+      |> redirect(to: Helpers.page_path(conn, :index))
       |> halt()
     end
   end

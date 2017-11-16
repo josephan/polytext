@@ -7,14 +7,15 @@ defmodule PolytextWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug Polytext.BrowserAuth
   end
 
   pipeline :require_login do
-    plug CueCard.Plugs.RequireLogin
+    plug Polytext.Plugs.RequireLogin
   end
 
   pipeline :ensure_admin do 
-    plug CueCard.Plugs.EnsureAdmin
+    plug Polytext.Plugs.EnsureAdmin
   end
 
   pipeline :api do

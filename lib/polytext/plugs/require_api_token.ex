@@ -1,4 +1,4 @@
-defmodule Polytext.Plugs.RequireLogin do
+defmodule Polytext.Plugs.RequireApiToken do
   import Plug.Conn
   import Phoenix.Controller, only: [render: 3]
 

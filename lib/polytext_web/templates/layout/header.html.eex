@@ -5,7 +5,7 @@
     
     <ul class="nav">
       <li class="nav-item">
-        <%= link "Card Types", to: card_type_path(@conn, :index), class: "nav-link text-white" %>
+        <%= link "Users", to: "https://www.google.com/", class: "nav-link text-white" %>
       </li>
     </ul>
   </div>

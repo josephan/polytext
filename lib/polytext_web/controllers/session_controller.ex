@@ -10,7 +10,7 @@ defmodule PolytextWeb.SessionController do
       {:ok, conn} ->
         conn
         |> put_flash(:info, "Welcome back to CueCard!")
-        |> redirect(to: page_path(conn, :home))
+        |> redirect(to: page_path(conn, :index))
       {:error, _reason, conn} ->
         conn
         |> put_flash(:error, "Invalid username/password combination")
@@ -21,6 +21,6 @@ defmodule PolytextWeb.SessionController do
   def delete(conn, _params) do
     conn
     |> Polytext.BrowserAuth.logout()
-    |> redirect(to: page_path(conn, :home))
+    |> redirect(to: page_path(conn, :index))
   end
 end
