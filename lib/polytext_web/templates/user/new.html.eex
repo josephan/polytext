@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-12 col-md-7 col-lg-6 col-xl-5 mx-auto">
+    <div class="card">
+      <div class="card-body">
+        <h2>Sign Up</h2>
+        <%= form_for @changeset, user_path(@conn, :create), fn f -> %>
+          <%= if @changeset.action do %>
+            <div class="alert alert-danger" role="alert">
+              Oops, something went wrong! Please check the errors below.
+            </div>
+          <% end %>
+
+          <div class="form-group">
+            <%= label f, :email, "Email" %>
+            <%= email_input f, :email, placeholder: "Enter email", class: "form-control" %>
+            <%= error_tag f, :email %>
+          </div>
+        
+          <div class="form-group">
+            <%= label f, :password, "Password" %>
+            <%= password_input f, :password, placeholder: "Password", class: "form-control" %>
+            <%= error_tag f, :password %>
+          </div>
+        
+          <div class="form-group">
+            <%= label f, :password_confirmation, "Confirm password" %>
+            <%= password_input f, :password_confirmation, placeholder: "Confirm password", class: "form-control" %>
+            <%= error_tag f, :password_confirmation %>
+          </div>
+        
+          <%= submit "Create!", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

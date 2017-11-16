@@ -1,0 +1,33 @@
+<%= if @current_user && @current_user.admin do %>
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/">Admin</a>
+    
+    <ul class="nav">
+      <li class="nav-item">
+        <%= link "Card Types", to: card_type_path(@conn, :index), class: "nav-link text-white" %>
+      </li>
+    </ul>
+  </div>
+</nav>
+<% end %>
+<nav class="navbar navbar-light bg-white">
+  <div class="container">
+    <a class="navbar-brand" href="/">CueCard</a>
+    
+    <ul class="nav">
+      <%= if @current_user do %>
+        <li class="nav-item">
+          <%= link "Logout", to: session_path(@conn, :delete), class: "nav-link", method: "delete" %>
+        </li>
+      <% else %>
+        <li class="nav-item">
+          <%= link "Login", to: session_path(@conn, :new), class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link "Sign Up", to: user_path(@conn, :new), class: "nav-link" %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</nav>
