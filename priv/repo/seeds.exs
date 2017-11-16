@@ -17,5 +17,6 @@ alias Polytext.{
   Reads,
   Reads.Document,
   Reads.Sentence,
-  Reads.Translation
+  Reads.Translation,
+  Reads.Tag,
 }

@@ -5,7 +5,8 @@ alias Polytext.{
   Reads,
   Reads.Document,
   Reads.Sentence,
-  Reads.Translation
+  Reads.Translation,
+  Reads.Tag
 }
 
 import_if_available Ecto.Query, only: [from: 1, from: 2]
