@@ -19,6 +19,7 @@ defmodule Polytext.Reads.Document do
   def changeset(%Document{} = document, attrs) do
     document
     |> cast(attrs, [:title])
+    |> validate_length(:title, min: 3, max: 250)
     |> validate_required([:title])
   end
 end

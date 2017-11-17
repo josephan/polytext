@@ -39,9 +39,21 @@ defmodule PolytextWeb.Router do
     post "/signup", UserController, :create
   end
 
+  # User Routes
+  # scope "/", PolytextWeb do
+  #   pipe_through [:browser, :require_login]
+  #
+  #   # Dashboard
+  #   scope "/dashboard" do
+  #     get "/documents", DashboardController, :documents
+  #   end
+  # end
+
   # Admin Routes
-  scope "/admin", PolytextWeb do
+  scope "/admin", PolytextWeb, as: :admin do
     pipe_through [:browser, :require_login, :ensure_admin]
+
+    resources "/documents", Admin.DocumentController
   end
 
   # Other scopes may use custom stacks.

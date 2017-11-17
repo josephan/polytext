@@ -14,7 +14,7 @@ defmodule PolytextWeb.UserController do
         conn
         |> Polytext.BrowserAuth.login(user)
         |> put_flash(:info, "Welcome to Polytext! Live long and prosper.")
-        |> redirect(to: page_path(conn, :home))
+        |> redirect(to: page_path(conn, :index))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
