@@ -20,3 +20,10 @@ alias Polytext.{
   Reads.Translation,
   Reads.Tag,
 }
+
+hash_pass = &Comeonin.Bcrypt.hashpwsalt/1
+
+Polytext.Repo.transaction(fn ->
+  admin = Repo.insert(%User{name: "Joseph An", email: "test@test.com", password_hash: hash_pass.("123123"), admin: true})
+  user = Repo.insert(%User{name: "User 2", email: "test2@test.com", password_hash: hash_pass.("123123")})
+end)

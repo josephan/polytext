@@ -7,6 +7,7 @@ defmodule Polytext.Reads.Document do
 
   schema "documents" do
     field :title, :string
+    field :published, :boolean
 
     belongs_to :user, User
     has_many :sentences, Sentence

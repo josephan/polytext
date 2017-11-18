@@ -10,8 +10,8 @@ defmodule Polytext.Accounts.User do
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
     field :password_hash, :string
-    field :admin, :boolean
-    field :email_verified, :boolean
+    field :admin, :boolean, default: false, null: false
+    field :email_verified, :boolean, default: false, null: false
 
     has_many :document, Document
 
