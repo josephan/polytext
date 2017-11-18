@@ -48,9 +48,9 @@ exports.config = {
   // Configure your plugins
   plugins: {
     babel: {
-      presets: ["env"],
+      presets: ["env", "react"],
       // Do not use ES6 compiler in vendor code
-      ignore: [/vendor/]
+      ignore: [/^node_modules/, /vendor/]
     },
     sass: {
       options: {
