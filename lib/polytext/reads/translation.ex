@@ -5,7 +5,7 @@ defmodule Polytext.Reads.Translation do
 
   schema "translations" do
     field :audio_uri, :string
-    field :language, :integer
+    field :language, LanguageEnum
     field :text, :string
 
     belongs_to :sentence, Sentence
@@ -17,6 +17,6 @@ defmodule Polytext.Reads.Translation do
   def changeset(%Translation{} = translation, attrs) do
     translation
     |> cast(attrs, [:text, :language, :audio_uri])
-    |> validate_required([:text, :language, :audio_uri])
+    |> validate_required([:text, :language])
   end
 end

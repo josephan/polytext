@@ -42,7 +42,9 @@ defmodule Polytext.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:comeonin, "~> 4.0"},
-      {:bcrypt_elixir, "~> 1.0"}
+      {:bcrypt_elixir, "~> 1.0"},
+      {:ecto_enum, github: "gjaldon/ecto_enum"},
+      {:nimble_csv, "~> 0.3"}
     ]
   end
 

@@ -6,6 +6,7 @@ defmodule PolytextWeb.Admin.DocumentController do
 
   def index(conn, _params) do
     documents = Reads.list_documents()
+    
     render(conn, "index.html", documents: documents)
   end
 
@@ -15,13 +16,15 @@ defmodule PolytextWeb.Admin.DocumentController do
   end
 
   def create(conn, %{"document" => document_params}) do
-    case Reads.create_document(document_params) do
-      {:ok, document} ->
+    case Reads.create_document_with_csv(document_params) do
+      {:ok, %{document: document}} ->
         conn
         |> put_flash(:info, "Document created successfully.")
         |> redirect(to: admin_document_path(conn, :show, document))
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+      {:error, _} ->
+        conn
+        |> put_flash(:error, "Something went wrong")
+        |> render(conn, "new.html")
     end
   end
 
@@ -33,11 +36,13 @@ defmodule PolytextWeb.Admin.DocumentController do
   def edit(conn, %{"id" => id}) do
     document = Reads.get_document!(id)
     changeset = Reads.change_document(document)
+
     render(conn, "edit.html", document: document, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "document" => document_params}) do
     document = Reads.get_document!(id)
+    require IEx; IEx.pry
 
     case Reads.update_document(document, document_params) do
       {:ok, document} ->
@@ -54,7 +59,7 @@ defmodule PolytextWeb.Admin.DocumentController do
     {:ok, _document} = Reads.delete_document(document)
 
     conn
-    |> put_flash(:info, "Post deleted successfully.")
+    |> put_flash(:info, "Document deleted successfully.")
     |> redirect(to: admin_document_path(conn, :index))
   end
 end

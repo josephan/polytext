@@ -9,7 +9,7 @@ defmodule PolytextWeb.SessionController do
     case Polytext.BrowserAuth.login_by_email_and_pass(conn, email, pass) do
       {:ok, conn} ->
         conn
-        |> put_flash(:info, "Welcome back to CueCard!")
+        |> put_flash(:info, "Welcome back to Polytext")
         |> redirect(to: page_path(conn, :index))
       {:error, _reason, conn} ->
         conn

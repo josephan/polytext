@@ -1,9 +1,13 @@
 defmodule Polytext.Reads do
   import Ecto.Query, warn: false
   alias Polytext.Repo
-  alias Polytext.Reads.Document
+  alias Polytext.Reads.{Document, Multi}
 
-  def get_document!(id), do: Repo.get!(Document, id)
+  def get_document!(id) do
+    Document
+    |> Repo.get!(id)
+    |> Repo.preload(sentences: :translations)
+  end
 
   def list_documents, do: Repo.all(Document)
   def list_documents(user) do
@@ -21,6 +25,12 @@ defmodule Polytext.Reads do
     %Document{}
     |> Document.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def create_document_with_csv(attrs \\ %{}) do
+    attrs
+    |> Multi.DocumentWithCSV.create()
+    |> Repo.transaction()
   end
 
   def update_document(%Document{} = document, attrs) do

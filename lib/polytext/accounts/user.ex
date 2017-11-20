@@ -13,7 +13,7 @@ defmodule Polytext.Accounts.User do
     field :admin, :boolean, default: false, null: false
     field :email_verified, :boolean, default: false, null: false
 
-    has_many :document, Document
+    has_many :documents, Document
 
     timestamps()
   end

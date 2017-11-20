@@ -11,9 +11,8 @@
 //
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
-import "phoenix_html";
 
-import "./components/SentenceEditor.js";
+import "phoenix_html";
 
 // Import local files
 //

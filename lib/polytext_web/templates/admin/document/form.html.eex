@@ -1,4 +1,4 @@
-<%= form_for @changeset, @action, fn f -> %>
+<%= form_for @changeset, @action, [multipart: true], fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
       Oops, something went wrong! Please check the errors below.
@@ -6,13 +6,30 @@
   <% end %>
 
   <div class="form-group">
-    <h4>Title</h4>
+    <%= label f, :title %>
     <%= text_input f, :title, class: "form-control" %>
     <%= error_tag f, :title %>
   </div>
 
-  <div id="react-sentence-editor">
+  <div class="form-group">
+    <label>Upload CSV: </label>
+    <%= file_input f, :csv %>
   </div>
+
+  <table class="table">
+    <%= inputs_for f, :sentences, fn s -> %>
+      <tr>
+        <td><%= s.index + 1 %></td>
+        <%= inputs_for s, :translations, fn t -> %>
+          <td>
+            <%= textarea t, :text, class: "form-control" %>
+            <%= error_tag t, :text %>
+            <%= hidden_input t, :language %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
 
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
