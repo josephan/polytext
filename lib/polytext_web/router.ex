@@ -50,14 +50,16 @@ defmodule PolytextWeb.Router do
   # end
 
   # Admin Routes
-  scope "/admin", PolytextWeb, as: :admin do
+  scope "/admin", PolytextWeb.Admin, as: :admin do
     pipe_through [:browser, :require_login, :ensure_admin]
 
-    resources "/documents", Admin.DocumentController
+    resources "/documents", DocumentController
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", PolytextWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", PolytextWeb.Api do
+    pipe_through :api
+
+    resources "/documents", DocumentController, only: [:index, :show]
+  end
 end

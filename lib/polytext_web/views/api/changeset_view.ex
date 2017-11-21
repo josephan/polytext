@@ -1,4 +1,4 @@
-defmodule PolytextWeb.ChangesetView do
+defmodule PolytextWeb.Api.ChangesetView do
   use PolytextWeb, :view
 
   @doc """

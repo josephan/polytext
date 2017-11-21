@@ -7,14 +7,14 @@ defmodule PolytextWeb.Api.DocumentView do
   end
 
   def render("show.json", %{document: document}) do
-    %{data: render_one(document, DocumentView, "document.json")}
+    %{data: render_one(document, DocumentView, "document_with_sentences.json")}
   end
 
   def render("document.json", %{document: document}) do
     %{id: document.id,
       title: document.title}
   end
-  
+
   def render("document_with_sentences.json", %{document: document}) do
     %{id: document.id,
       title: document.title,
