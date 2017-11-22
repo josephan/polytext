@@ -3,6 +3,7 @@ APP="polytext"
 BUILD_HOST="104.236.120.219"
 BUILD_USER="deploy"
 BUILD_AT="/tmp/edeliver/$APP/builds"
+USING_DISTILLERY=true
 
 RELEASE_DIR="/tmp/edeliver/$APP/builds/_build/prod/rel/$APP"
 
