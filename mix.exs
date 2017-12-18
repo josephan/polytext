@@ -4,7 +4,7 @@ defmodule Polytext.Mixfile do
   def project do
     [
       app: :polytext,
-      version: "0.0.2",
+      version: "0.0.#{committed_at()}",
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
@@ -65,5 +65,9 @@ defmodule Polytext.Mixfile do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       "test": ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
+  end
+
+  defp commited_at do
+    System.cmd("git", ~w[log -1 --date=short --pretty=format:%ct]) |> elem(0)
   end
 end
