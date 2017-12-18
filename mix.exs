@@ -49,7 +49,7 @@ defmodule Polytext.Mixfile do
       {:hackney, "~> 1.9"},
       {:sweet_xml, "~> 0.6"},
       {:edeliver, "~> 1.4.4"},
-      {:distillery, "~> 1.5"}
+      {:distillery, "~> 1.5", runtime: false}
     ]
   end
 
