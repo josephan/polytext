@@ -4,7 +4,7 @@ defmodule Polytext.Mixfile do
   def project do
     [
       app: :polytext,
-      version: "0.0.#{committed_at()}",
+      version: "0.0.#{commited_at()}",
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
@@ -46,6 +46,7 @@ defmodule Polytext.Mixfile do
       {:ecto_enum, github: "gjaldon/ecto_enum"},
       {:nimble_csv, "~> 0.3"},
       {:ex_aws, "~> 2.0"},
+      {:ex_aws_polly, "~> 0.2.0"},
       {:hackney, "~> 1.9"},
       {:sweet_xml, "~> 0.6"},
       {:edeliver, "~> 1.4.4"},
