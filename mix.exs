@@ -46,7 +46,7 @@ defmodule Polytext.Mixfile do
       {:ecto_enum, github: "gjaldon/ecto_enum"},
       {:nimble_csv, "~> 0.3"},
       {:ex_aws, "~> 2.0"},
-      {:ex_aws_polly, "~> 0.2.0"},
+      {:ex_aws_polly, "~> 0.3.1"},
       {:hackney, "~> 1.9"},
       {:sweet_xml, "~> 0.6"},
       {:edeliver, "~> 1.4.4"},
