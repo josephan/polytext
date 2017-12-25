@@ -3,6 +3,21 @@ defmodule Polytext.Reads.Speech do
   import Ecto.Changeset
   alias Polytext.Reads.{Speech, Document}
 
+  @voice_ids [
+    english:    "Joanna",
+    korean:     "Seoyeon",
+    french:     "Celine",
+    german:     "Vicki",
+    italian:    "Carla",
+    japanese:   "Mizuki",
+    norwegian:  "Liv",
+    polish:     "Ewa",
+    portuguese: "Ines",
+    romanian:   "Carmen",
+    russian:    "Tatyana",
+    spanish:    "Penelope",
+    turkish:    "Filiz"
+  ]
 
   schema "speeches" do
     field :audio_url, :string
