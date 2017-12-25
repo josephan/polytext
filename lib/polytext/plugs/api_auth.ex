@@ -1,4 +1,4 @@
-defmodule Polytext.ApiAuth do
+defmodule Polytext.Plugs.ApiAuth do
   import Plug.Conn
 
   alias Polytext.Accounts.User
