@@ -40,20 +40,18 @@ defmodule PolytextWeb.Router do
   end
 
   # User Routes
-  # scope "/", PolytextWeb do
-  #   pipe_through [:browser, :require_login]
-  #
-  #   # Dashboard
-  #   scope "/dashboard" do
-  #     get "/documents", DashboardController, :documents
-  #   end
-  # end
+  scope "/", PolytextWeb do
+    pipe_through [:browser, :require_login]
+
+    # Dashboard
+    resources "/documents", DocumentController
+  end
 
   # Admin Routes
   scope "/admin", PolytextWeb.Admin, as: :admin do
     pipe_through [:browser, :require_login, :ensure_admin]
 
-    resources "/documents", DocumentController
+    resources "/documents", DocumentController, only: [:index, :create, :edit, :delete]
   end
 
   # Other scopes may use custom stacks.

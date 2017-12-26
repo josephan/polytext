@@ -2,7 +2,7 @@ defmodule PolytextWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", PolytextWeb.RoomChannel
+  channel "user:*", PolytextWeb.UserChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
@@ -19,10 +19,14 @@ defmodule PolytextWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  @max_age 2 * 7 * 24 * 60 * 60
+  @max_age 4 * 7 * 24 * 60 * 60
+
+  def max_age do
+    @max_age
+  end
 
   def connect(%{"token" => token}, socket) do
-    case Phoenix.Token.verify(socket, "user socket", token, max_age: @max_age) do
+    case Phoenix.Token.verify(socket, "user socket", token, max_age: max_age()) do
       {:ok, user_id} ->
         {:ok, assign(socket, :user_id, user_id)}
       {:error, _reason} ->
