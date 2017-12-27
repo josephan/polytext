@@ -1,2 +1,3 @@
 <h1>Document Editor</h1>
+<script>window.PolytextDocument = <%= raw(@document) %></script>
 <div id="document-editor-root"></div>

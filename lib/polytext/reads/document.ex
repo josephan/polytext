@@ -4,7 +4,7 @@ defmodule Polytext.Reads.Document do
   alias Polytext.Accounts.User
   alias Polytext.Reads.{Document, Sentence, Tag}
 
-
+  @derive {Poison.Encoder, only: [:id, :title, :published, :sentences]}
   schema "documents" do
     field :title, :string
     field :published, :boolean

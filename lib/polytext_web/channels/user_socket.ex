@@ -2,7 +2,7 @@ defmodule PolytextWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "user:*", PolytextWeb.UserChannel
+  channel "document:*", PolytextWeb.DocumentChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

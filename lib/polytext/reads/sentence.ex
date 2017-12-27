@@ -5,6 +5,7 @@ defmodule Polytext.Reads.Sentence do
   alias Polytext.Reads.{Document, Sentence, Translation}
 
 
+  @derive {Poison.Encoder, only: [:id, :translations]}
   schema "sentences" do
     belongs_to :document, Document
     has_many :translations, Translation

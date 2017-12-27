@@ -12,7 +12,7 @@ defmodule Polytext.Reads do
   end
 
   def get_document_with_user!(id, user_id) do
-    Repo.one from doc in Document,
+    Repo.one! from doc in Document,
       join: user in assoc(doc, :user),
       where: doc.id == ^id and user.id == ^user_id,
       left_join: sen in assoc(doc, :sentences),

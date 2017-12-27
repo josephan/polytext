@@ -18,7 +18,8 @@ defmodule PolytextWeb.DocumentController do
   end
 
   def edit(conn, %{"id" => id}) do
-    render(conn, "edit.html", document: conn.assigns.document)
+    document = Poison.encode!(conn.assigns.document)
+    render(conn, "edit.html", document: document)
   end
 
   def delete(conn, %{"id" => id}) do

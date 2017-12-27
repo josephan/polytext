@@ -8,9 +8,8 @@ class DocumentEditor extends React.Component {
 
   componentDidMount() {
     socket.connect();
-    console.log(socket);
-    let channel = socket.channel(`user:${window.userToken}`);
-    console.log(channel);
+    // let channel = socket.channel(`document:${this.props.document.id}`);
+    let channel = socket.channel(`document:${this.props.document.id}`);
     channel.join()
       .receive('ok', (resp) => {
         console.log('joined!');
@@ -21,8 +20,19 @@ class DocumentEditor extends React.Component {
   }
 
   render() {
+    const doc = this.props.document;
+
     return (
-      <h1>Hello World</h1>
+      <div>
+        <h1>{doc.title}</h1>
+        {doc.sentences.map(s => (
+          <div key={s.id}>
+            {s.translations.map(t => (
+              <p key={t.id}>{t.text}</p>
+            ))}
+          </div>
+        ))}
+      </div>
     );
   }
 }

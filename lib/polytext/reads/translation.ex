@@ -3,9 +3,11 @@ defmodule Polytext.Reads.Translation do
   import Ecto.Changeset
   alias Polytext.Reads.{Sentence, Translation}
 
+  @derive {Poison.Encoder, only: [:id, :language, :text, :audio_uri]}
   schema "translations" do
     field :language, LanguageEnum
     field :text, :string
+    field :audio_uri, :string
 
     belongs_to :sentence, Sentence
 

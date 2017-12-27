@@ -6,5 +6,5 @@ import DocumentEditor from './DocumentEditor.js';
 
 const root = document.getElementById("document-editor-root");
 if (root !== null) {
-  ReactDOM.render(<DocumentEditor />, root);
+  ReactDOM.render(<DocumentEditor document={window.PolytextDocument} />, root);
 }
