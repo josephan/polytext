@@ -49,6 +49,7 @@ defmodule Polytext.Mixfile do
       {:ex_aws_polly, "~> 0.3.1"},
       {:hackney, "~> 1.9"},
       {:sweet_xml, "~> 0.6"},
+      {:timex, "~> 3.1"},
       {:edeliver, "~> 1.4.4"},
       {:distillery, "~> 1.5", runtime: false}
     ]

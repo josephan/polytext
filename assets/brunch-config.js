@@ -52,9 +52,15 @@ exports.config = {
       // Do not use ES6 compiler in vendor code
       ignore: [/^node_modules/, /vendor/]
     },
+    copycat: {
+      "fonts": ["node_modules/open-iconic/font/fonts"] // copy node_modules/font-awesome/fonts/* to priv/static/fonts/
+    },
     sass: {
       options: {
-        includePaths: ["node_modules/bootstrap/scss"],
+        includePaths: [
+          "node_modules/bootstrap/scss",
+          "node_modules/open-iconic/font/css"
+        ],
         precision: 8
       }
     }
