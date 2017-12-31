@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "babel-brunch": "github:babel/babel-brunch",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-react": "^6.24.1",
     "brunch": "2.10.9",
     "clean-css-brunch": "2.10.0",

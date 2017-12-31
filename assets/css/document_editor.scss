@@ -1,8 +1,9 @@
 .document-editor {
   .document-page {
-    border: 0.3em solid black;
     margin-top: 1em;
-    padding: 0.7em 1em;
+    padding: 2.2em 3em;
+    background-color: white;
+    box-shadow: 0 0 0 0.75pt #d1d1d1, 0 0 3pt 0.75pt #ccc;
 
     .title {
       border: none;
@@ -15,16 +16,31 @@
     }
 
     .sentence-row {
+      display: flex;
+      border-radius: 3px;
+      padding: 5px;
 
       .translation {
-        display: block;
-        width: 100%;
+        flex: 1;
         border: none;
+        background: transparent;
 
         &:focus {
           outline: none;
         }
       }
+
+      .sentence-options {
+        visibility: hidden;
+
+        .close-button {
+          color: #d5d5d5;
+        }
+      }
+    }
+
+    .row-highlighted {
+      background-color: #f6f6f6;
     }
 
     // placeholder

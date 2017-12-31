@@ -1,7 +1,7 @@
 defmodule Polytext.Reads do
   import Ecto.Query, warn: false
   alias Polytext.Repo
-  alias Polytext.Reads.{Document, Multi}
+  alias Polytext.Reads.{Document, Multi, Sentence, Translation}
 
   def get_document!(id) do
     Repo.one! from doc in Document,
@@ -51,7 +51,28 @@ defmodule Polytext.Reads do
     |> Repo.update()
   end
 
+  def add_sentence(%Document{} = doc, languages \\ []) do
+    Repo.transaction(fn ->
+      sentence = Ecto.build_assoc(doc, :sentences) |> Repo.insert!()
+      for lang <- languages do
+        Ecto.build_assoc(sentence, :translations, text: "", language: lang) |> Repo.insert!()
+      end
+      sentence
+    end)
+  end
+
+  def update_translation(%Translation{} = translation, attrs) do
+    translation
+    |> Translation.changeset(attrs)
+    |> Repo.update()
+  end
+
   def delete_document(%Document{} = document) do
     Repo.delete(document)
+  end
+
+  def delete_sentence(document_id, sentence_id) do
+    Repo.one!(from s in Sentence, where: s.id == ^sentence_id and s.document_id == ^document_id)
+    |> Repo.delete()
   end
 end

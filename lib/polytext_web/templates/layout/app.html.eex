@@ -14,9 +14,11 @@
   <body>
     <%= render "header.html", assigns %>
     <%= render "flash_message.html", assigns %>
-    <div class="container pt-3">
-      <%= render @view_module, @view_template, assigns %>
-    </div> <!-- /container -->
+    <div class="main bg-light">
+      <div class="container pt-3">
+        <%= render @view_module, @view_template, assigns %>
+      </div> <!-- /container -->
+    </div>
     <%= if assigns[:user_token] do %>
       <script>window.userToken = "<%= assigns[:user_token] %>";</script>
     <% end %>
