@@ -10,11 +10,20 @@ defmodule PolytextWeb.SessionController do
       {:ok, conn} ->
         conn
         |> put_flash(:info, "Welcome back to Polytext")
-        |> redirect(to: page_path(conn, :index))
+        |> redirect(to: original_path(conn))
       {:error, _reason, conn} ->
         conn
         |> put_flash(:error, "Invalid username/password combination")
         |> render("new.html")
+    end
+  end
+
+  defp original_path(conn) do
+    path = get_session(conn, :original_path)
+    if path do
+      path
+    else
+      page_path(conn, :index)
     end
   end
 

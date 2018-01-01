@@ -13,7 +13,8 @@ defmodule Polytext.Plugs.RequireLogin do
     else
       conn
       |> put_flash(:error, "Sorry you have been logged in do access that page.")
-      |> redirect(to: Helpers.page_path(conn, :index))
+      |> put_session(:original_path, conn.request_path)
+      |> redirect(to: Helpers.session_path(conn, :new))
       |> halt()
     end
   end
