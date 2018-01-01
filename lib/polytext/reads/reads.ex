@@ -4,18 +4,17 @@ defmodule Polytext.Reads do
   alias Polytext.Reads.{Document, Sentence}
 
   def get_document!(id) do
-    Repo.one! from doc in Document,
-      where: doc.id == ^id,
-      left_join: sen in assoc(doc, :sentences),
-      preload: [sentences: sen]
+    Repo.get!(Document, id)
+    |> Repo.preload(sentences: from(Sentence, order_by: [asc: :inserted_at]))
   end
 
   def get_document_with_user!(id, user_id) do
-    Repo.one! from doc in Document,
-      join: user in assoc(doc, :user),
-      where: doc.id == ^id and user.id == ^user_id,
-      left_join: sen in assoc(doc, :sentences),
-      preload: [user: user, sentences: sen]
+    from(doc in Document,
+         join: u in assoc(doc, :user),
+         where: doc.id == ^id and u.id == ^user_id,
+         preload: [user: u])
+    |> Repo.one!
+    |> Repo.preload(sentences: from(Sentence, order_by: [asc: :inserted_at]))
   end
 
   def list_documents, do: Repo.all(Document)
