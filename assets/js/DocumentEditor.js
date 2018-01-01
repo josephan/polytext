@@ -8,18 +8,11 @@ class DocumentEditor extends React.Component {
 
     this.state = {
       title: props.document.title,
+      primaryLanguage: "english",
+      secondaryLanguage: "korean",
       sentences: props.document.sentences,
       lastSaved: null,
     }
-
-    this.handleTitleChange = this.handleTitleChange.bind(this);
-    this.handleTextChange  = this.handleTextChange.bind(this);
-    this.saveDocument      = this.saveDocument.bind(this);
-    this.updateSaved       = this.updateSaved.bind(this);
-    this.createSentence    = this.createSentence.bind(this);
-    this.addSentence       = this.addSentence.bind(this);
-    this.deleteSentence    = this.deleteSentence.bind(this);
-    this.removeSentence    = this.removeSentence.bind(this);
   }
 
   componentDidMount() {
@@ -38,43 +31,42 @@ class DocumentEditor extends React.Component {
     this.channel.on('delete_sentence', (payload) => { this.removeSentence(payload.id) });
   }
 
-  addSentence(payload) {
+  addSentence = (payload) => {
     this.setState(state => ({sentences: [...state.sentences, payload]}));
   }
 
-  removeSentence(sentence_id) {
+  removeSentence = (sentence_id) => {
     this.setState(state => ({sentences: state.sentences.filter(s => s.id !== sentence_id)}));
   }
 
-  updateSaved(timestamp) {
+  updateSaved = (timestamp) => {
     this.setState({lastSaved: moment.unix(timestamp).format("LTS")});
   }
 
-  handleTitleChange(event) {
+  handleTitleChange = (event) => {
     this.setState({title: event.target.value});
   }
 
-  handleTextChange(event, sentenceId, translationId) {
+  handleTextChange = (event, sentenceId, language) => {
     const newSentences = this.state.sentences;
     const sInd = newSentences.findIndex(s => s.id === sentenceId);
-    const tInd = newSentences[sInd].translations.findIndex(t => t.id === translationId);
-    newSentences[sInd].translations[tInd].text = event.target.value;
+    newSentences[sInd][language] = event.target.value;
     this.setState({sentences: newSentences});
   }
 
-  saveDocument() {
+  saveDocument = () => {
     this.updateDocument(this.state.title, this.state.sentences);
   }
 
-  updateDocument(title, sentences) {
+  updateDocument = (title, sentences) => {
     this.channel.push('update_document', {title: title, sentences: sentences});
   }
 
-  createSentence() {
+  createSentence = () => {
     this.channel.push('add_sentence', {});
   }
 
-  deleteSentence(sentence_id) {
+  deleteSentence = (sentence_id) => {
     this.channel.push('delete_sentence', {id: sentence_id});
   }
 
@@ -90,6 +82,8 @@ class DocumentEditor extends React.Component {
             <Sentence
               key={s.id}
               sentence={s}
+              primary={this.state.primaryLanguage}
+              secondary={this.state.secondaryLanguage}
               handleTextChange={this.handleTextChange}
               deleteSentence={this.deleteSentence}
             />
@@ -122,28 +116,46 @@ class Sentence extends React.Component {
   }
 
   render() {
-    const s = this.props.sentence;
+    const { sentence, primary, secondary, handleTextChange } = this.props;
     const sRowClass = this.state.showOptions ? 'row-highlighted' : '';
     const sRowBtnClass = this.state.showOptions ? styles.showButton : {};
 
     return (
-      <div className={`sentence-row ${sRowClass}`} onMouseOver={this.showOptions} onMouseLeave={this.hideOptions}>
-        {s.translations.map(t => (
-          <input type="text"
-            style={(t.text === "" || t.text === null) ? styles.emptySentence : {}}
-            className="translation mr-1"
-            key={t.id}
-            value={t.text}
-            onChange={(e) => { this.props.handleTextChange(e, s.id, t.id) }} />
-        ))}
+      <div className={`sentence-row ${sRowClass}`}
+        onMouseOver={this.showOptions}
+        onMouseLeave={this.hideOptions}>
+        <SentenceInput
+          text={sentence[primary] || ""}
+          language={primary}
+          sentenceId={sentence.id}
+          handleTextChange={handleTextChange}
+        />
+        <SentenceInput
+          text={sentence[secondary] || ""}
+          language={secondary}
+          sentenceId={sentence.id}
+          handleTextChange={handleTextChange}
+        />
         <div className="sentence-options">
-          <button className="btn btn-outline-dark btn-sm" style={sRowBtnClass} onClick={() => { this.props.deleteSentence(s.id) }}>
+          <button className="btn btn-outline-dark btn-sm"
+            style={sRowBtnClass}
+            onClick={() => { this.props.deleteSentence(sentence.id) }}>
             <span className="oi oi-x close-button" aria-hidden="true"></span>
           </button>
         </div>
       </div>
     );
   }
+}
+
+const SentenceInput = (props) => {
+  return (
+    <input type="text"
+      style={(props.text === "") ? styles.emptySentence : {}}
+      className="translation mr-1"
+      value={props.text}
+      onChange={(e) => { props.handleTextChange(e, props.sentenceId, props.language) }} />
+  )
 }
 
 const styles = {

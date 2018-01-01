@@ -1,9 +1,20 @@
 defmodule Polytext do
-  @moduledoc """
-  Polytext keeps the contexts that define your domain
-  and business logic.
+  @voice_ids [
+    english:    "Joanna",
+    korean:     "Seoyeon",
+    french:     "Celine",
+    german:     "Vicki",
+    italian:    "Carla",
+    japanese:   "Mizuki",
+    norwegian:  "Liv",
+    polish:     "Ewa",
+    portuguese: "Ines",
+    romanian:   "Carmen",
+    russian:    "Tatyana",
+    spanish:    "Penelope",
+    turkish:    "Filiz"
+  ]
 
-  Contexts are also responsible for managing your data, regardless
-  if it comes from the database, an external API or others.
-  """
+  def languages, do: Keyword.keys(@voice_ids)
+  def languages_string, do: Keyword.keys(@voice_ids) |> Enum.map(&Atom.to_string/1)
 end

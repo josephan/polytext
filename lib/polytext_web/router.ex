@@ -50,8 +50,6 @@ defmodule PolytextWeb.Router do
   # Admin Routes
   scope "/admin", PolytextWeb.Admin, as: :admin do
     pipe_through [:browser, :require_login, :ensure_admin]
-
-    resources "/documents", DocumentController, only: [:index, :create, :edit, :delete]
   end
 
   # Other scopes may use custom stacks.

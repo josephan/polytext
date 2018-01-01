@@ -18,6 +18,6 @@ defmodule PolytextWeb.Api.DocumentView do
   def render("document_with_sentences.json", %{document: document}) do
     %{id: document.id,
       title: document.title,
-      sentences: render_many(document.sentences, SentenceView, "sentence_with_translations.json")}
+      sentences: render_many(document.sentences, SentenceView, "sentence.json")}
   end
 end

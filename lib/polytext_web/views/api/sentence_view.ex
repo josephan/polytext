@@ -1,9 +1,22 @@
 defmodule PolytextWeb.Api.SentenceView do
   use PolytextWeb, :view
-  alias PolytextWeb.Api.TranslationView
 
-  def render("sentence_with_translations.json", %{sentence: sentence}) do
-    %{id: sentence.id,
-      translations: render_many(sentence.translations, TranslationView, "translation.json")}
+  def render("sentence.json", %{sentence: sentence}) do
+    %{
+      id:         sentence.id,
+      english:    sentence.english,
+      korean:     sentence.korean,
+      french:     sentence.french,
+      german:     sentence.german,
+      italian:    sentence.italian,
+      japanese:   sentence.japanese,
+      norwegian:  sentence.norwegian,
+      polish:     sentence.polish,
+      portuguese: sentence.portuguese,
+      romanian:   sentence.romanian,
+      russian:    sentence.russian,
+      spanish:    sentence.spanish,
+      turkish:    sentence.turkish
+    }
   end
 end

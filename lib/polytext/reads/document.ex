@@ -2,7 +2,7 @@ defmodule Polytext.Reads.Document do
   use Ecto.Schema
   import Ecto.Changeset
   alias Polytext.Accounts.User
-  alias Polytext.Reads.{Document, Sentence, Tag}
+  alias Polytext.Reads.{Document, Sentence, Tag, Speech}
 
   @derive {Poison.Encoder, only: [:id, :title, :published, :sentences]}
   schema "documents" do
@@ -11,6 +11,7 @@ defmodule Polytext.Reads.Document do
 
     belongs_to :user, User
     has_many :sentences, Sentence
+    has_many :speeches, Speech
     many_to_many :tags, Tag, join_through: "document_tags"
 
     timestamps()

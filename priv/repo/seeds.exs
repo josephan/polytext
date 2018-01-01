@@ -17,7 +17,6 @@ alias Polytext.{
   Reads,
   Reads.Document,
   Reads.Sentence,
-  Reads.Translation,
   Reads.Tag,
 }
 
@@ -29,11 +28,12 @@ Polytext.Repo.transaction(fn ->
 
   doc = Ecto.build_assoc(admin, :documents, %{title: "Test Document 1"}) |> Repo.insert!()
 
-  sen1 = Ecto.build_assoc(doc, :sentences) |> Repo.insert!()
-  sen2 = Ecto.build_assoc(doc, :sentences) |> Repo.insert!()
+  Ecto.build_assoc(doc, :sentences, english: "Hello my name is Joseph.", korean: "안녕하세요 제 이름은 요셉입니다.") |> Repo.insert!()
 
-  Ecto.build_assoc(sen1, :translations, %{text: "hello my name is joseph", language: 0}) |> Repo.insert!()
-  Ecto.build_assoc(sen1, :translations, %{text: "안녕, 내 이름은 조셉이야.", language: 1}) |> Repo.insert!()
-  Ecto.build_assoc(sen2, :translations, %{text: "the weather is nice today", language: 0}) |> Repo.insert!()
-  Ecto.build_assoc(sen2, :translations, %{text: "오늘 날씨가 좋네요", language: 1}) |> Repo.insert!()
+  Ecto.build_assoc(doc, :sentences, english: "And my favourite programming language is Elixir.", korean: "그리고 내가 좋아하는 프로그래밍 언어는 Elixir입니다.") |> Repo.insert!()
+
+  Ecto.build_assoc(doc, :sentences, english: "This website is build using elixir!", korean: "이 웹 사이트는 엘릭서를 사용하여 제작되었습니다!") |> Repo.insert!()
+
+  Ecto.build_assoc(doc, :sentences, english: "JavaScript is also used for the editor and mobile app.", korean: "JavaScript는 편집기 및 모바일 앱에도 사용됩니다.") |> Repo.insert!()
+
 end)

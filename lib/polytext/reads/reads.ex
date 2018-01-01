@@ -1,14 +1,13 @@
 defmodule Polytext.Reads do
   import Ecto.Query, warn: false
   alias Polytext.Repo
-  alias Polytext.Reads.{Document, Multi, Sentence, Translation}
+  alias Polytext.Reads.{Document, Sentence}
 
   def get_document!(id) do
     Repo.one! from doc in Document,
       where: doc.id == ^id,
       left_join: sen in assoc(doc, :sentences),
-      left_join: tra in assoc(sen, :translations),
-      preload: [sentences: {sen, translations: tra}]
+      preload: [sentences: sen]
   end
 
   def get_document_with_user!(id, user_id) do
@@ -16,8 +15,7 @@ defmodule Polytext.Reads do
       join: user in assoc(doc, :user),
       where: doc.id == ^id and user.id == ^user_id,
       left_join: sen in assoc(doc, :sentences),
-      left_join: tra in assoc(sen, :translations),
-      preload: [user: user, sentences: {sen, translations: tra}]
+      preload: [user: user, sentences: sen]
   end
 
   def list_documents, do: Repo.all(Document)
@@ -39,36 +37,24 @@ defmodule Polytext.Reads do
     |> Repo.insert()
   end
 
-  def create_document_with_csv(attrs \\ %{}) do
-    attrs
-    |> Multi.DocumentWithCSV.create()
-    |> Repo.transaction()
-  end
-
   def update_document(%Document{} = document, attrs) do
     document
     |> Document.changeset(attrs)
     |> Repo.update()
   end
 
-  def add_sentence(%Document{} = doc, languages \\ []) do
-    Repo.transaction(fn ->
-      sentence = Ecto.build_assoc(doc, :sentences) |> Repo.insert!()
-      for lang <- languages do
-        Ecto.build_assoc(sentence, :translations, text: "", language: lang) |> Repo.insert!()
-      end
-      sentence
-    end)
+  def delete_document(%Document{} = document) do
+    Repo.delete(document)
   end
 
-  def update_translation(%Translation{} = translation, attrs) do
-    translation
-    |> Translation.changeset(attrs)
+  def update_sentence(%Sentence{} = sentence, attrs) do
+    sentence
+    |> Sentence.changeset(attrs)
     |> Repo.update()
   end
 
-  def delete_document(%Document{} = document) do
-    Repo.delete(document)
+  def add_sentence(%Document{} = doc) do
+    Ecto.build_assoc(doc, :sentences) |> Repo.insert()
   end
 
   def delete_sentence(document_id, sentence_id) do
