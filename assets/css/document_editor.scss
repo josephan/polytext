@@ -15,6 +15,14 @@
       }
     }
 
+    .language-select-row {
+      display: flex;
+
+      .language-select-column {
+        flex: 1;
+      }
+    }
+
     .sentence-row {
       display: flex;
       border-radius: 3px;

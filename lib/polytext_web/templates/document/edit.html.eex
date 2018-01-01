@@ -1,2 +1,5 @@
-<script>window.PolytextDocument = <%= raw(@document) %></script>
+<script>
+window.PolytextDocument = <%= raw(@document) %>;
+window.PolytextLanguages = <%= raw(@languages) %>;
+</script>
 <div id="document-editor-root"></div>

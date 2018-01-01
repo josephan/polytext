@@ -19,7 +19,8 @@ defmodule PolytextWeb.DocumentController do
 
   def edit(conn, %{"id" => id}) do
     document = Poison.encode!(conn.assigns.document)
-    render(conn, "edit.html", document: document)
+    languages = Poison.encode!(Polytext.languages())
+    render(conn, "edit.html", document: document, languages: languages)
   end
 
   def delete(conn, %{"id" => id}) do

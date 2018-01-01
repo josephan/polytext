@@ -3,16 +3,12 @@ import moment from 'moment';
 import socket from './socket.js';
 
 class DocumentEditor extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      title: props.document.title,
-      primaryLanguage: "english",
-      secondaryLanguage: "korean",
-      sentences: props.document.sentences,
-      lastSaved: null,
-    }
+  state = {
+    title: this.props.document.title,
+    primaryLanguage: this.props.languages[0],
+    secondaryLanguage: this.props.languages[1],
+    sentences: this.props.document.sentences,
+    lastSaved: null,
   }
 
   componentDidMount() {
@@ -42,6 +38,15 @@ class DocumentEditor extends React.Component {
   updateSaved = (timestamp) => {
     this.setState({lastSaved: moment.unix(timestamp).format("LTS")});
   }
+
+  changePrimaryLanguage = (event) => {
+    this.setState({primaryLanguage: event.target.text})
+  }
+
+  changeSecondaryLanguage = (event) => {
+    this.setState({secondaryLanguage: event.target.text})
+  }
+
 
   handleTitleChange = (event) => {
     this.setState({title: event.target.value});
@@ -73,11 +78,26 @@ class DocumentEditor extends React.Component {
   render() {
     return (
       <div className="document-editor">
-        <button className="btn btn-outline-primary mr-3" onClick={this.saveDocument}>Save Changes</button>
+        <button className="btn btn-primary mr-3" onClick={this.saveDocument}>Save Changes</button>
         {this.state.lastSaved && <span className="oi oi-check mr-1 text-success" aria-hidden="true"></span>}
         <span className="text-secondary">{this.state.lastSaved && `Last Saved: ${this.state.lastSaved}`}</span>
         <div className="document-page">
-          <input type="text" className="title mb-1" value={this.state.title} onChange={this.handleTitleChange} />
+          <input type="text" className="title mb-2" value={this.state.title} onChange={this.handleTitleChange} />
+          <div className="language-select-row mb-2">
+            <div className="language-select-column">
+              <LanguageSelector
+                selectedLanguage={this.state.primaryLanguage}
+                changeLanguage={this.changePrimaryLanguage}
+                languages={this.props.languages}/>
+            </div>
+            <div className="language-select-column">
+              <LanguageSelector
+                selectedLanguage={this.state.secondaryLanguage}
+                changeLanguage={this.changeSecondaryLanguage}
+                languages={this.props.languages}/>
+            </div>
+            <div className="invisible" style={styles.hiddenOffset}></div>
+          </div>
           {this.state.sentences.map((s, i) => (
             <Sentence
               key={s.id}
@@ -88,7 +108,7 @@ class DocumentEditor extends React.Component {
               deleteSentence={this.deleteSentence}
             />
           ))}
-          <button className="btn btn-outline-info btn-sm mt-4" onClick={this.createSentence}>Add New Sentence</button>
+          <button className="btn btn-outline-primary btn-sm mt-4" onClick={this.createSentence}>Add New Sentence</button>
         </div>
       </div>
     );
@@ -148,6 +168,21 @@ class Sentence extends React.Component {
   }
 }
 
+const LanguageSelector = (props) => {
+  return (
+    <div className="btn-group">
+      <button className="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {props.selectedLanguage}
+      </button>
+      <div className="dropdown-menu">
+        {props.languages.map((language, i) => (
+          <a key={i} className="dropdown-item" onClick={props.changeLanguage}>{language}</a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const SentenceInput = (props) => {
   return (
     <input type="text"
@@ -164,7 +199,10 @@ const styles = {
   },
   showButton: {
     visibility: 'visible',
-  }
+  },
+  hiddenOffset: {
+    width: 35,
+  },
 }
 
 $(function () {
