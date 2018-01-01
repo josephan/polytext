@@ -1,11 +1,38 @@
 <h1>Your Documents</h1>
 
-<%= for document <- @documents do %>
-  <p>1) <%= document.id %></p>
-<% end %>
 
 <%= form_for @changeset, document_path(@conn, :create), fn f -> %>
   <div class="form-group">
     <%= submit "Create New Document", class: "btn btn-primary" %>
   </div>
 <% end %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for doc <- @documents do %>
+      <tr>
+        <td><%= doc.title || "-" %></td>
+        <td>
+          <div class="tag">
+            <%= if doc.published do %>
+              <span class="oi oi-check text-success" aria-hidden="true"></span> Published
+            <%= else %>
+              Not published
+            <% end %>
+          </div>
+        </td>
+        <td class="text-right">
+          <%= link("Edit", to: document_path(@conn, :edit, doc), class: "btn btn-primary btn-sm") %>
+          <%= link "Delete", to: document_path(@conn, :delete, doc), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-sm" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

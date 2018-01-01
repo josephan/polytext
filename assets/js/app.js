@@ -8,3 +8,8 @@ const root = document.getElementById("document-editor-root");
 if (root !== null) {
   ReactDOM.render(<DocumentEditor document={window.PolytextDocument} languages={window.PolytextLanguages} />, root);
 }
+
+$(function () {
+  $('[data-toggle="popover"]').popover();
+})
+

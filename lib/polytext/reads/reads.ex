@@ -30,10 +30,17 @@ defmodule Polytext.Reads do
   end
 
   def create_document(attrs \\ %{}, user) do
-    %Document{}
-    |> Document.changeset(attrs)
-    |> Ecto.Changeset.put_assoc(:user, user)
-    |> Repo.insert()
+    Repo.transaction fn ->
+      doc =
+        %Document{}
+        |> Document.changeset(attrs)
+        |> Ecto.Changeset.put_assoc(:user, user)
+        |> Repo.insert!()
+
+      add_sentence(doc)
+
+      doc
+    end
   end
 
   def update_document(%Document{} = document, attrs) do

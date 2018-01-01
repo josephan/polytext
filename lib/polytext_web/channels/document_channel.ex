@@ -12,6 +12,13 @@ defmodule PolytextWeb.DocumentChannel do
     end
   end
 
+  def handle_in("toggle_publish", %{"published" => published}, socket) do
+    doc = Reads.get_document!(socket.assigns.document_id) 
+    {:ok, doc} = Reads.update_document(doc, %{published: published})
+    broadcast!(socket, "toggle_published", %{published: doc.published})
+    {:noreply, socket}
+  end
+
   def handle_in("update_document", %{"title" => title, "sentences" => sentences_data}, socket) do
     doc = Reads.get_document!(socket.assigns.document_id) 
 

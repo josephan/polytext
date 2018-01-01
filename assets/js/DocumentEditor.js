@@ -4,6 +4,7 @@ import socket from './socket.js';
 
 class DocumentEditor extends React.Component {
   state = {
+    published: this.props.document.published,
     title: this.props.document.title,
     primaryLanguage: this.props.languages[0],
     secondaryLanguage: this.props.languages[1],
@@ -25,6 +26,7 @@ class DocumentEditor extends React.Component {
     this.channel.on('updated_at', (payload) => { this.updateSaved(payload.timestamp) });
     this.channel.on('add_sentence', (payload) => { this.addSentence(payload) });
     this.channel.on('delete_sentence', (payload) => { this.removeSentence(payload.id) });
+    this.channel.on('toggle_published', (payload) => { this.togglePublishedState(payload.published) });
   }
 
   addSentence = (payload) => {
@@ -63,6 +65,14 @@ class DocumentEditor extends React.Component {
     this.updateDocument(this.state.title, this.state.sentences);
   }
 
+  togglePublish = () => {
+    this.channel.push('toggle_publish', {published: !this.state.published})
+  }
+
+  togglePublishedState = (published) => {
+    this.setState(({published: published}))
+  }
+
   updateDocument = (title, sentences) => {
     this.channel.push('update_document', {title: title, sentences: sentences});
   }
@@ -71,18 +81,21 @@ class DocumentEditor extends React.Component {
     this.channel.push('add_sentence', {});
   }
 
-  deleteSentence = (sentence_id) => {
-    this.channel.push('delete_sentence', {id: sentence_id});
+  deleteSentence = (sentenceId) => {
+    this.channel.push('delete_sentence', {id: sentenceId});
   }
 
   render() {
+    const publishClass = this.state.published ? "btn-outline-danger" : "btn-info";
+
     return (
       <div className="document-editor">
+        <button className={`btn ${publishClass} mr-3`} onClick={this.togglePublish}>{this.state.published ? "Unpublish" : "Publish"}</button>
         <button className="btn btn-primary mr-3" onClick={this.saveDocument}>Save Changes</button>
         {this.state.lastSaved && <span className="oi oi-check mr-1 text-success" aria-hidden="true"></span>}
         <span className="text-secondary">{this.state.lastSaved && `Last Saved: ${this.state.lastSaved}`}</span>
         <div className="document-page">
-          <input type="text" className="title mb-2" value={this.state.title} onChange={this.handleTitleChange} />
+          <input type="text" className="title mb-2" value={this.state.title} onChange={this.handleTitleChange} placeholder="Enter title here..." />
           <div className="language-select-row mb-2">
             <div className="language-select-column">
               <LanguageSelector
