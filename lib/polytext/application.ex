@@ -14,6 +14,7 @@ defmodule Polytext.Application do
       supervisor(PolytextWeb.Endpoint, []),
       # Start your own worker by calling: Polytext.Worker.start_link(arg1, arg2, arg3)
       # worker(Polytext.Worker, [arg1, arg2, arg3]),
+      supervisor(Task.Supervisor, [[name: Polytext.AudioTaskSupervisor, restart: :temporary]])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

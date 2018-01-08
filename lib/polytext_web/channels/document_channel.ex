@@ -30,8 +30,9 @@ defmodule PolytextWeb.DocumentChannel do
         s -> update_sentence(s, data)
       end
     end
-
+    
     last_updated(socket)
+
     {:noreply, socket}
   end
 
@@ -53,6 +54,12 @@ defmodule PolytextWeb.DocumentChannel do
       Reads.update_sentence(sentence, data)
     end
   end
+
+  # defp generate_audio(sentence) do
+  #   Task.Supervisor.start_child Polytext.TaskSupervisor, fn ->
+  #     Reads.AudioGenerator.run(sentence)
+  #   end
+  # end
 
   defp add_sentence(socket, sentences) do
     broadcast!(socket, "add_sentence", sentences)

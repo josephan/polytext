@@ -1,12 +1,13 @@
 defmodule Polytext.Reads.Sentence do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Polytext.Reads.{Document, Sentence, Speech}
+  alias Polytext.Reads.{Document, Sentence, Audio}
 
 
   @derive {Poison.Encoder, only: [:id | Polytext.languages()]}
   schema "sentences" do
     belongs_to :document, Document
+    has_many :audios, Audio
 
     field :english, :string
     field :korean, :string
